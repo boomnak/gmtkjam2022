@@ -1,0 +1,16 @@
+[submodule "sti"]
+	path = sti
+	url = https://github.com/Karai17/Simple-Tiled-Implementation
+[submodule "bump"]
+	path = bump
+	url = https://github.com/kikito/bump.lua
+[submodule "hump"]
+	path = hump
+	url = https://github.com/HDictus/hump/
+	branch = temp-master
+[submodule "shadows"]
+	path = shadows
+	url = https://github.com/matiasah/shadows
+[submodule "lovetoys"]
+	path = lovetoys
+	url = https://github.com/Lovetoys/lovetoys

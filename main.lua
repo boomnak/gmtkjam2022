@@ -22,10 +22,18 @@ local die = {
   down = 2,
   steps = 0,
 }
+local dieRollSound
+local dieFaces = {}
 
 local objectives = {}
 
-local dieRollSound
+--[[
+local shader_invert = love.graphics.newShader [[
+  vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords) {
+    vec4 col = texture2D( texture, texture_coords );
+    return vec4(1-col.r, 1-col.g, 1-col.b, col.a);
+  }
+]]
 
 local isPressed = {}
 
@@ -56,6 +64,9 @@ function love.load()
   end
 
   dieRollSound = love.audio.newSource("assets/snd/dice.wav", "static")
+  for i = 1, 6 do
+    dieFaces[i] = lg.newImage("assets/img/" .. tostring(i) .. ".png")
+  end
 end
 
 function love.update(_)
@@ -63,7 +74,6 @@ function love.update(_)
   if obj == die.top then
     objectives[pair(die.y, die.x)] = nil
   end
-
 
   local moved = false
   local prev = shallowCopy(die)
@@ -105,6 +115,7 @@ function love.update(_)
   end
   if moved then
     die.steps = die.steps + 1
+    love.audio.stop(dieRollSound)
     love.audio.play(dieRollSound)
   end
 
@@ -139,18 +150,17 @@ function love.draw()
 
       if tile < 0 then
         lg.setColor(0, 0.5, 1, 1)
-        lg.rectangle("fill", x + 1, y + 1, tileSize - 2, tileSize - 2)
+        lg.rectangle("fill", x, y, tileSize, tileSize)
       else
         lg.setColor(0, 1, 0.5, 1)
-        lg.rectangle("fill", x + 1, y + 1, tileSize - 2, tileSize - 2)
 
         if tile > 0 then
-          if objectives[pair(i, j)] ~= nil then
-            lg.setColor(0, 0, 0, 1)
-          else
-            lg.setColor(1, 1, 1, 1)
+          if objectives[pair(i, j)] == nil then
+          lg.setColor(0.5, 1, 1, 1)
           end
-          lg.print(tostring(tile), x + 10, y + 20, -math.pi / 4)
+          lg.draw(dieFaces[tile], x, y)
+        else
+          lg.rectangle("fill", x, y, tileSize, tileSize)
         end
       end
     end
@@ -158,42 +168,29 @@ function love.draw()
 
   -- Draw die
   lg.setColor(1, 1, 1, 1)
-  lg.rectangle("fill", (die.x - 1) * die.w - die.w / 2, (die.y - 1) * die.h - die.h / 2, die.w, die.h)
-  lg.setColor(0, 0, 0, 1)
-  lg.print(
-    tostring(die.top),
-    (die.x - 1) * die.w - 15,
-    (die.y - 1) * die.h,
-    -math.pi / 4
+  lg.draw(
+    dieFaces[die.top],
+    (die.x - 1) * die.w - die.w / 2, (die.y - 1) * die.h - die.h / 2
   )
 
   lg.setColor(.85, .85, .85, 1)
-  lg.polygon("fill", {
+  lg.draw(
+    dieFaces[die.down],
     (die.x - 1) * die.w - die.w / 2, (die.y - 1) * die.h + die.h / 2,
-    die.x * die.w - die.w / 2, (die.y - 1) * die.h + die.h / 2,
-    die.x * die.w, die.y * die.h,
-    (die.x - 1) * die.w, die.y * die.h,
-  })
-  lg.setColor(0, 0, 0, 1)
-  lg.print(
-    tostring(die.down),
-    (die.x - 1) * die.w,
-    (die.y - 1) * die.h + die.h / 2
+    nil,
+    nil, 0.5,
+    nil, nil,
+    0.5, 0
   )
 
   lg.setColor(.75, .75, .75, 1)
-  lg.polygon("fill", {
-    die.x * die.w - die.w / 2, die.y * die.h - die.h / 2,
-    die.x * die.w, die.y * die.h,
-    die.x * die.w, (die.y - 1) * die.h,
-    die.x * die.w - die.w / 2, (die.y - 1) * die.h - die.h / 2,
-  })
-  lg.setColor(0, 0, 0, 1)
-  lg.print(
-    tostring(die.right),
-    die.x * die.w - die.w / 2,
-    (die.y - 1) * die.h + 10,
-    -(math.pi * 1) / 4
+  lg.draw(
+    dieFaces[die.right],
+    die.x * die.w - 16, die.y * die.h - 48,
+    -math.pi / 2,
+    -1, 0.5,
+    32, 32,
+    0.5, 0
   )
 
   lg.pop()

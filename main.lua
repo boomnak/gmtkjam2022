@@ -77,28 +77,28 @@ function love.update(_)
 
   local moved = false
   local prev = shallowCopy(die)
-  if isPressed["w"] then
+  if isPressed["w"] or isPressed["up"] then
     die.y = die.y - 1
     moved = true
 
     local down = 7 - die.top
     die.top = die.down
     die.down = down
-  elseif isPressed["a"] then
+  elseif isPressed["a"] or isPressed["left"] then
     die.x = die.x - 1
     moved = true
 
     local right = 7 - die.top
     die.top = die.right
     die.right = right
-  elseif isPressed["s"] then
+  elseif isPressed["s"] or isPressed["down"] then
     die.y = die.y + 1
     moved = true
 
     local top = 7 - die.down
     die.down = die.top
     die.top = top
-  elseif isPressed["d"] then
+  elseif isPressed["d"] or isPressed["right"] then
     die.x = die.x + 1
     moved = true
 

@@ -151,19 +151,19 @@ function love.draw()
       if tile < 0 then
         lg.setColor(0, 0.5, 1, 1)
         lg.rectangle("fill", x, y, tileSize, tileSize)
+      elseif tile > 0 and objectives[pair(i, j)] ~= nil then
+        lg.draw(dieFaces[tile], x, y)
       else
         lg.setColor(0, 1, 0.5, 1)
-
-        if tile > 0 then
-          if objectives[pair(i, j)] == nil then
-          lg.setColor(0.5, 1, 1, 1)
-          end
-          lg.draw(dieFaces[tile], x, y)
-        else
-          lg.rectangle("fill", x, y, tileSize, tileSize)
-        end
+        lg.rectangle("fill", x, y, tileSize, tileSize)
       end
     end
+  end
+
+  for i = 0, #map + 1 do
+    lg.setColor(0, 0, 0, 1)
+    lg.line(i * tileSize, 0, i * tileSize, #map * tileSize)
+    lg.line(0, i * tileSize, #map[1] * tileSize, i * tileSize)
   end
 
   -- Draw die

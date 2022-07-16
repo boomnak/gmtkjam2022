@@ -1,4 +1,5 @@
 local lg = love.graphics
+local lk = love.keyboard
 
 local map = {
   { -1, -1, 0, 0, -1 },
@@ -24,47 +25,9 @@ local die = {
 
 local objectives = {}
 
-local onKey = {
-  w = function()
-    die.y = die.y - 1
-    die.steps = die.steps + 1
+local dieRollSound
 
-    local top = die.down
-    local down = 7 - die.top
-    die.top = top
-    die.down = down
-  end,
-  a = function()
-    die.x = die.x - 1
-    die.steps = die.steps + 1
-
-    local top = die.right
-    local right = 7 - die.top
-    die.top = top
-    die.right = right
-  end,
-  s = function()
-    die.y = die.y + 1
-    die.steps = die.steps + 1
-
-    local top = 7 - die.down
-    local down = die.top
-    die.top = top
-    die.down = down
-  end,
-  d = function()
-    die.x = die.x + 1
-    die.steps = die.steps + 1
-
-    local top = 7 - die.right
-    local right = die.top
-    die.top = top
-    die.right = right
-  end,
-  escape = function()
-    love.event.quit()
-  end
-}
+local isPressed = {}
 
 local function pair(i, j)
   return tostring(i) .. "," .. tostring(j)
@@ -91,6 +54,8 @@ function love.load()
       end
     end
   end
+
+  dieRollSound = love.audio.newSource("assets/snd/dice.wav", "static")
 end
 
 function love.update(_)
@@ -98,19 +63,59 @@ function love.update(_)
   if obj == die.top then
     objectives[pair(die.y, die.x)] = nil
   end
-end
 
-function love.keypressed(key)
+
+  local moved = false
   local prev = shallowCopy(die)
-  if onKey[key] ~= nil then
-    onKey[key]()
+  if isPressed["w"] then
+    die.y = die.y - 1
+    moved = true
+
+    local down = 7 - die.top
+    die.top = die.down
+    die.down = down
+  elseif isPressed["a"] then
+    die.x = die.x - 1
+    moved = true
+
+    local right = 7 - die.top
+    die.top = die.right
+    die.right = right
+  elseif isPressed["s"] then
+    die.y = die.y + 1
+    moved = true
+
+    local top = 7 - die.down
+    die.down = die.top
+    die.top = top
+  elseif isPressed["d"] then
+    die.x = die.x + 1
+    moved = true
+
+    local top = 7 - die.right
+    die.right = die.top
+    die.top = top
   end
 
   if die.y <= 0 or die.y > #map
       or die.x <= 0 or die.x > #map[1]
       or map[die.y][die.x] == -1 then
     die = prev
+    moved = false
   end
+  if moved then
+    die.steps = die.steps + 1
+    love.audio.play(dieRollSound)
+  end
+
+  if lk.isDown("escape") then
+    love.event.quit()
+  end
+  isPressed = {}
+end
+
+function love.keypressed(key)
+  isPressed[key] = true
 end
 
 function love.draw()

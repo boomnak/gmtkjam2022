@@ -16,7 +16,7 @@ local map = {
 }
 local tileSize = 64
 local mapTransform
-local die = Die.new(math.ceil(#map[1]/2), math.ceil(#map[1]/2))
+local die = Die.new(math.ceil(#map[1]/2), math.ceil(#map/2))
 local objectives = {}
 local isPressed = {}
 

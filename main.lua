@@ -241,6 +241,7 @@ local function startUpdate()
   suit.Label("Dice of Daedalus", {}, suit.layout:row(200, 50))
   suit.layout:row()
   if suit.Button("Start", suit.layout:row()).hit then
+    loadMap(0)
     update = gameUpdate
     draw = gameDraw
   end
@@ -254,8 +255,6 @@ function love.load()
   lg.setNewFont(30)
   floorTile = lg.newImage("assets/img/7.png")
   gapTile = lg.newImage("assets/img/8.png")
-
-  loadMap(0)
 
   update = startUpdate
   draw = startDraw

@@ -85,6 +85,7 @@ local gapTile
 
 local update
 local draw
+local state
 
 local function pair(i, j)
   return i + 257 * j
@@ -194,10 +195,10 @@ local function gameUpdate(dt)
     map = maps[mapIndex]
     loadMap(die.steps)
 	elseif next(objectives) == nil and mapIndex >= #maps then
-		--go back to menu and give scores as number of steps taken
     die.count = false
 		bgm_game:stop()
 		bgm_victory:play()
+		state = "victory"
   end
 
   if lk.isDown("escape") then
@@ -253,6 +254,9 @@ local function gameDraw()
   lg.setColor(1, 1, 1, 1)
   lg.print("Dice of Daedalus")
   lg.print("Steps: " .. tostring(die.steps), 0, 24)
+	if state == "victory" then
+		lg.printf("Congratulations for Completing the Game!\npress space to continue",0,lg.getHeight()/4,lg.getWidth(),"center")
+  end
 end
 
 local function startUpdate()
@@ -263,6 +267,7 @@ local function startUpdate()
     loadMap(0)
     update = gameUpdate
     draw = gameDraw
+		state = "game"
   end
 end
 
@@ -281,6 +286,14 @@ end
 
 function love.update(dt)
   update(dt)
+	
+	if (state == "victory") and isPressed["space"] then
+		bgm_victory:stop()
+		bgm_game:play()
+		update = startUpdate
+		draw = startDraw
+  end
+	
   isPressed = {}
 end
 

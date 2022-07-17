@@ -20,6 +20,13 @@ local mid = {
   { -1, -1, 0, 0, 0 },
   { 0, 2, 0, -1, -1 }
 }
+local challenge = {
+	{-1,-1,-1,-1,-1,-1},
+	{0,0,0,0,0,0},
+	{0,-1,0,0,-1,0},
+	{1,-1,0,0,-1,2},
+	{-1,-1,-1,-1,-1,-1}
+}
 local intermediate = {
   { 2, -1, -1, -1, -1, -1, 3 },
   { 0, 0, -1, -1, -1, 0, 0 },
@@ -58,7 +65,7 @@ local labyrinth = {
   { 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0 }
 }
 
-local maps = { tutorial, easy, mid, intermediate, complex, labyrinth }
+local maps = { tutorial, easy, mid, challenge, intermediate, complex, labyrinth }
 local mapIndex = 1
 local map = maps[mapIndex]
 

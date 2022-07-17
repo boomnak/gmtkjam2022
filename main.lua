@@ -25,11 +25,13 @@ local complex = {
   { 1, 0, 0, 0, 0, 0, 0, 0, 2 }
 }
 
-local map = tutorial
+local maps = { tutorial, mid, complex }
+local mapIndex = 1
+local map = maps[mapIndex]
 
 local tileSize = 64
 local mapTransform
-local die = Die.new(math.ceil(#map[1] / 2), math.ceil(#map / 2))
+local die
 local objectives = {}
 local isPressed = {}
 
@@ -37,11 +39,10 @@ local function pair(i, j)
   return i + 257 * j
 end
 
-function love.load()
+local function loadMap(steps)
   local w, h, _ = love.window.getMode()
-  map.x, map.y = w / 2, h / 2
   mapTransform = love.math.newTransform(
-    map.x, map.y,
+    w / 2, h / 2,
     math.pi / 4,
     nil, nil,
     tileSize * #map[1] / 2,
@@ -57,6 +58,13 @@ function love.load()
       end
     end
   end
+
+  die = Die.new(math.ceil(#map[1] / 2), math.ceil(#map / 2))
+  die.steps = steps
+end
+
+function love.load()
+  loadMap(0)
 end
 
 function love.update(dt)
@@ -72,6 +80,13 @@ function love.update(dt)
     (dy - die.y) * tileSize
   )
 
+  if next(objectives) == nil and mapIndex < #maps then
+    -- All objectives met, so move to next map.
+    mapIndex = mapIndex + 1
+    map = maps[mapIndex]
+    loadMap(die.steps)
+  end
+
   if lk.isDown("escape") then
     love.event.quit()
   end
@@ -83,13 +98,6 @@ function love.keypressed(key)
 end
 
 function love.draw()
-  lg.setColor(1, 1, 1, 1)
-  lg.print("Dave's Dice Roll")
-
-  if next(objectives) == nil then
-    lg.print("You won in " .. tostring(die.steps) .. " steps", 0, 30)
-  end
-
   lg.push()
   lg.applyTransform(mapTransform)
 
@@ -125,4 +133,8 @@ function love.draw()
   die:draw()
 
   lg.pop()
+
+  lg.setColor(1, 1, 1, 1)
+  lg.print("Dave's Dice Roll")
+  lg.print("Steps: " .. tostring(die.steps), 0, 24)
 end

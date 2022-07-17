@@ -48,7 +48,12 @@ function love.update(dt)
     objectives[pair(die.y, die.x)] = nil
   end
 
+  local dx, dy = die.x, die.y
   die:update(dt, map, isPressed)
+  mapTransform:translate(
+    (dx - die.x) * tileSize,
+    (dy - die.y) * tileSize
+  )
 
   if lk.isDown("escape") then
     love.event.quit()
@@ -82,6 +87,7 @@ function love.draw()
         lg.setColor(0, 0.5, 1, 1)
         lg.rectangle("fill", x, y, tileSize, tileSize)
       elseif tile > 0 and objectives[pair(i, j)] ~= nil then
+        lg.setColor(0, 1, 0.5, 1)
         lg.draw(Die.faces[tile], x, y)
       else
         lg.setColor(0, 1, 0.5, 1)

@@ -257,7 +257,10 @@ local function gameDraw()
   lg.print("Dice of Daedalus")
   lg.print("Steps: " .. tostring(die.steps), 0, 24)
 	if state == "victory" then
-		lg.printf("Congratulations for Completing the Game!\npress space to continue",0,lg.getHeight()/4,lg.getWidth(),"center")
+		lg.printf("Congratulations for Completing the Game!",0,lg.getHeight()/4,lg.getWidth(),"center")
+		lg.setNewFont(14)
+		lg.printf("press space to continue",0,lg.getHeight()/3,lg.getWidth(),"center")
+		lg.setNewFont(30)
   end
 end
 

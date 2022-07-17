@@ -62,6 +62,18 @@ local complex = {
   { 0, 0, -1, -1, 0, -1, -1, 0, 0 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 2 }
 }
+local difficult = {
+	{-1,-1,-1,-1,0,0,0,-1,-1,-1},
+	{-1,-1,-1,-1,0,0,0,-1,-1,-1},
+	{-1,-1,-1,-1,0,0,0,-1,-1,-1},
+	{-1,-1,-1,-1,0,-1,-1,-1,-1,4},
+	{1,0,-1,-1,0,-1,-1,-1,-1,0},
+	{-1,0,0,0,0,0,0,0,0,0},
+	{-1,-1,0,-1,-1,0,-1,-1,-1,-1},
+	{-1,-1,0,-1,-1,0,-1,-1,-1,-1},
+	{-1,-1,0,0,0,0,-1,-1,-1,-1},
+	{-1,-1,2,-1,-1,3,-1,-1,-1,-1}
+}
 local labyrinth = {
   { 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
   { 0, 1, -1, 6, 0, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0 },
@@ -80,7 +92,7 @@ local labyrinth = {
   { 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0 }
 }
 
-local maps = { tutorial, tutorial_2, tutorial_3, easy, mid, challenge, intermediate, complex, labyrinth }
+local maps = { tutorial, tutorial_2, tutorial_3, easy, mid, challenge, intermediate, complex, difficult, labyrinth }
 local mapIndex = 1
 local map = maps[mapIndex]
 

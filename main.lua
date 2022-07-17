@@ -17,6 +17,12 @@ local tutorial_2 = {
 	{0},
 	{2}
 }
+local tutorial_3 = {
+	{3,0,0,0},
+	{-1,0,-1,0},
+	{-1,-1,-2,0},
+	{-1,-1,-1,6}
+}
 local easy = {
   { 2, 0, 0 },
   { 0, 0, 0 },
@@ -74,7 +80,7 @@ local labyrinth = {
   { 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0 }
 }
 
-local maps = { tutorial, tutorial_2, easy, mid, challenge, intermediate, complex, labyrinth }
+local maps = { tutorial, tutorial_2, tutorial_3, easy, mid, challenge, intermediate, complex, labyrinth }
 local mapIndex = 1
 local map = maps[mapIndex]
 

@@ -3,20 +3,33 @@ local Die = require "die"
 local lg = love.graphics
 local lk = love.keyboard
 
-local map = {
-  {3,0,0,0,0,0,0,0,4},
-  {0,0,-1,-1,0,-1,-1,0,0},
-  {0,-1,-1,-1,0,-1,-1,-1,0},
-  {0,-1,-1,0,0,0,-1,-1,0},
-  {0,0,0,0,0,0,0,0,0},
-  {0,-1,-1,0,0,0,-1,-1,0},
-  {0,-1,-1,-1,0,-1,-1,-1,0},
-  {0,0,-1,-1,0,-1,-1,0,0},
-  {1,0,0,0,0,0,0,0,2}
+local tutorial = {
+  { 4, 0, 0, 0, 0, 0, 3 }
 }
+local mid = {
+  { -1, -1, 0, 0, -1 },
+  { -1, 0, 1, 0, -1 },
+  { -1, 0, 0, 0, -1 },
+  { -1, -1, 0, 0, 0 },
+  { 0, 2, 0, -1, -1 }
+}
+local complex = {
+  { 3, 0, 0, 0, 0, 0, 0, 0, 4 },
+  { 0, 0, -1, -1, 0, -1, -1, 0, 0 },
+  { 0, -1, -1, -1, 0, -1, -1, -1, 0 },
+  { 0, -1, -1, 0, 0, 0, -1, -1, 0 },
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  { 0, -1, -1, 0, 0, 0, -1, -1, 0 },
+  { 0, -1, -1, -1, 0, -1, -1, -1, 0 },
+  { 0, 0, -1, -1, 0, -1, -1, 0, 0 },
+  { 1, 0, 0, 0, 0, 0, 0, 0, 2 }
+}
+
+local map = tutorial
+
 local tileSize = 64
 local mapTransform
-local die = Die.new(math.ceil(#map[1]/2), math.ceil(#map/2))
+local die = Die.new(math.ceil(#map[1] / 2), math.ceil(#map / 2))
 local objectives = {}
 local isPressed = {}
 
@@ -101,10 +114,10 @@ function love.draw()
   end
   -- Draw map grid
   lg.setColor(0, 0, 0, 1)
-  for i = 0, #map + 1 do
+  for i = 0, #map[1] + 1 do
     lg.line(i * tileSize, 0, i * tileSize, #map * tileSize)
   end
-  for i = 0, #map[1] do
+  for i = 0, #map + 1 do
     lg.line(0, i * tileSize, #map[1] * tileSize, i * tileSize)
   end
 

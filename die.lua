@@ -24,6 +24,7 @@ function Die.new(x, y)
     down = 2,
     steps = 0,
     moved = false,
+    count = true
   },
     { __index = Die }
   )
@@ -78,7 +79,9 @@ function Die:update(dt, map, isPressed)
     self.moved = false
   end
   if self.moved then
-    self.steps = self.steps + 1
+    if self.count then
+      self.steps = self.steps + 1
+    end
     love.audio.stop(Die.rollSound)
     love.audio.play(Die.rollSound)
   end

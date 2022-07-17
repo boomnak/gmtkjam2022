@@ -73,8 +73,6 @@ local bgm_game = love.audio.newSource("/assets/snd/Cavernous_Desert02.mp3", "str
 local bgm_victory = love.audio.newSource("/assets/snd/Shakkar.ogg", "stream")
 
 bgm_game:setLooping(true)
-bgm_boss:setLooping(true)
-bgm_victory:setLooping(true)
 bgm_game:play()
 
 local tileSize = 64
@@ -196,6 +194,8 @@ local function gameUpdate(dt)
     loadMap(die.steps)
 	elseif next(objectives == nil) and mapIndex > #maps then
 		--go back to menu and give scores as number of steps taken
+		bgm_game:stop()
+		bgm_victory:play()
   end
 
   if lk.isDown("escape") then

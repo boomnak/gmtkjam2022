@@ -62,6 +62,15 @@ local maps = { tutorial, easy, mid, intermediate, complex, labyrinth }
 local mapIndex = 1
 local map = maps[mapIndex]
 
+local bgm_game = love.audio.newSource("/assets/snd/Cavernous_Desert02.mp3", "stream")
+local bgm_boss = love.audio.newSource("/assets/snd/dungeon_ambient_1.ogg", "stream")
+local bgm_victory = love.audio.newSource("/assets/snd/Shakkar.ogg", "stream")
+
+bgm_game:setLooping(true)
+bgm_boss:setLooping(true)
+bgm_victory:setLooping(true)
+bgm_game:play()
+
 local tileSize = 64
 local mapTransform
 local die
@@ -158,6 +167,8 @@ local function loadMap(steps)
 
   if mapIndex == #maps then
     newEnemy(1, 1)
+    bgm_game:stop()
+	  bgm_boss:play()
   end
 end
 

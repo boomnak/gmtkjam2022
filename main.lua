@@ -34,6 +34,8 @@ local mapTransform
 local die
 local objectives = {}
 local isPressed = {}
+local floorTile
+local gapTile
 
 local function pair(i, j)
   return i + 257 * j
@@ -49,8 +51,6 @@ local function loadMap(steps)
     tileSize * #map / 2
   )
 
-  lg.setNewFont(30)
-
   for i = 1, #map do
     for j = 1, #map[i] do
       if map[i][j] > 0 then
@@ -64,6 +64,10 @@ local function loadMap(steps)
 end
 
 function love.load()
+  lg.setNewFont(30)
+  floorTile = lg.newImage("assets/img/7.png")
+  gapTile = lg.newImage("assets/img/8.png")
+
   loadMap(0)
 end
 
@@ -110,13 +114,13 @@ function love.draw()
 
       if tile < 0 then
         lg.setColor(0, 0.5, 1, 1)
-        lg.rectangle("fill", x, y, tileSize, tileSize)
+        lg.draw(gapTile, x, y)
       elseif tile > 0 and objectives[pair(i, j)] ~= nil then
         lg.setColor(0, 1, 0.5, 1)
         lg.draw(Die.faces[tile], x, y)
       else
         lg.setColor(0, 1, 0.5, 1)
-        lg.rectangle("fill", x, y, tileSize, tileSize)
+        lg.draw(floorTile, x, y)
       end
     end
   end

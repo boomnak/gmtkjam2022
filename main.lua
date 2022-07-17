@@ -1,3 +1,5 @@
+local suit = require "suit"
+
 local Die = require "die"
 
 local lg = love.graphics
@@ -19,13 +21,13 @@ local mid = {
   { 0, 2, 0, -1, -1 }
 }
 local intermediate = {
-	{2,-1,-1,-1,-1,-1,3},
-	{0,0,-1,-1,-1,0,0},
-	{-1,0,0,-1,0,0,-1},
-	{-1,0,0,0,0,0,-1},
-	{-1,-1,0,0,0,-1,-1},
-	{-1,-1,-1,1,-1,-1,-1},
-	{-1,-1,-1,-1,-1,-1,-1}
+  { 2, -1, -1, -1, -1, -1, 3 },
+  { 0, 0, -1, -1, -1, 0, 0 },
+  { -1, 0, 0, -1, 0, 0, -1 },
+  { -1, 0, 0, 0, 0, 0, -1 },
+  { -1, -1, 0, 0, 0, -1, -1 },
+  { -1, -1, -1, 1, -1, -1, -1 },
+  { -1, -1, -1, -1, -1, -1, -1 }
 }
 local complex = {
   { 3, 0, 0, 0, 0, 0, 0, 0, 4 },
@@ -39,21 +41,21 @@ local complex = {
   { 1, 0, 0, 0, 0, 0, 0, 0, 2 }
 }
 local labyrinth = {
-	{0,0,-1,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,1,-1,6,0,-1,-1,0,-1,-1,-1,-1,-1,-1,0},
-	{0,-1,-1,-1,-1,-1,0,0,0,0,0,0,0,0,0},
-	{0,0,0,-1,0,-1,0,-1,0,-1,0,-1,-1,-1,0},
-	{0,-1,-1,-1,0,-1,0,-1,0,-1,0,-1,4,-1,0},
-	{0,0,0,0,0,0,0,-1,0,-1,0,-1,0,-1,5},
-	{0,-1,0,-1,-1,-1,0,-1,0,-1,0,-1,0,-1,-1},
-	{0,-1,0,0,2,-1,0,0,0,-1,0,-1,0,0,0},
-	{0,-1,0,-1,-1,-1,0,0,0,-1,0,-1,-1,-1,0},
-	{0,-1,0,-1,0,0,0,0,0,0,0,0,0,0,0},
-	{0,-1,0,-1,-1,-1,-1,0,0,0,-1,-1,-1,-1,0},
-	{0,-1,0,-1,0,0,0,0,0,0,-1,0,3,-1,0},
-	{0,-1,0,0,0,-1,-1,-1,-1,0,-1,0,0,-1,0},
-	{0,-1,-1,-1,-1,-1,0,0,0,0,-1,0,-1,-1,0},
-	{0,0,0,0,0,0,0,-1,-1,-1,-1,0,0,0,0}
+  { 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  { 0, 1, -1, 6, 0, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0 },
+  { 0, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1, 0 },
+  { 0, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 4, -1, 0 },
+  { 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, -1, 0, -1, 5 },
+  { 0, -1, 0, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1 },
+  { 0, -1, 0, 0, 2, -1, 0, 0, 0, -1, 0, -1, 0, 0, 0 },
+  { 0, -1, 0, -1, -1, -1, 0, 0, 0, -1, 0, -1, -1, -1, 0 },
+  { 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  { 0, -1, 0, -1, -1, -1, -1, 0, 0, 0, -1, -1, -1, -1, 0 },
+  { 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 3, -1, 0 },
+  { 0, -1, 0, 0, 0, -1, -1, -1, -1, 0, -1, 0, 0, -1, 0 },
+  { 0, -1, -1, -1, -1, -1, 0, 0, 0, 0, -1, 0, -1, -1, 0 },
+  { 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0 }
 }
 
 local maps = { tutorial, easy, mid, intermediate, complex, labyrinth }
@@ -67,6 +69,9 @@ local objectives = {}
 local isPressed = {}
 local floorTile
 local gapTile
+
+local update
+local draw
 
 local function pair(i, j)
   return i + 257 * j
@@ -94,15 +99,7 @@ local function loadMap(steps)
   die.steps = steps
 end
 
-function love.load()
-  lg.setNewFont(30)
-  floorTile = lg.newImage("assets/img/7.png")
-  gapTile = lg.newImage("assets/img/8.png")
-
-  loadMap(0)
-end
-
-function love.update(dt)
+local function gameUpdate(dt)
   local obj = objectives[pair(die.y, die.x)]
   if obj == die.top then
     objectives[pair(die.y, die.x)] = nil
@@ -125,14 +122,9 @@ function love.update(dt)
   if lk.isDown("escape") then
     love.event.quit()
   end
-  isPressed = {}
 end
 
-function love.keypressed(key)
-  isPressed[key] = true
-end
-
-function love.draw()
+local function gameDraw()
   lg.push()
   lg.applyTransform(mapTransform)
 
@@ -172,4 +164,43 @@ function love.draw()
   lg.setColor(1, 1, 1, 1)
   lg.print("Dice of Daedalus")
   lg.print("Steps: " .. tostring(die.steps), 0, 24)
+end
+
+local function startUpdate()
+  suit.layout:reset(lg.getWidth() / 2 - 100, lg.getHeight() / 2 - 100)
+  suit.Label("Dice of Daedalus", {}, suit.layout:row(200, 50))
+  suit.layout:row()
+  if suit.Button("Start", suit.layout:row()).hit then
+    update = gameUpdate
+    draw = gameDraw
+  end
+end
+
+local function startDraw()
+  suit.draw()
+end
+
+function love.load()
+  lg.setNewFont(30)
+  floorTile = lg.newImage("assets/img/7.png")
+  gapTile = lg.newImage("assets/img/8.png")
+
+  loadMap(0)
+
+  update = startUpdate
+  draw = startDraw
+end
+
+function love.update(dt)
+  update(dt)
+  isPressed = {}
+end
+
+function love.draw()
+  draw()
+end
+
+function love.keypressed(key)
+  isPressed[key] = true
+  suit.keypressed(key)
 end

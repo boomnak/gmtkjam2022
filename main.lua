@@ -168,7 +168,8 @@ local function loadMap(steps)
 
   die = Die.new(math.ceil(#map[1] / 2), math.ceil(#map / 2))
   die.steps = steps
-
+  die.count = true
+  
   if mapIndex == #maps then
     --newEnemy(1, 1)
   end
@@ -194,6 +195,7 @@ local function gameUpdate(dt)
     loadMap(die.steps)
 	elseif next(objectives) == nil and mapIndex >= #maps then
 		--go back to menu and give scores as number of steps taken
+    die.count = false
 		bgm_game:stop()
 		bgm_victory:play()
   end

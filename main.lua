@@ -100,9 +100,11 @@ function love.draw()
     end
   end
   -- Draw map grid
+  lg.setColor(0, 0, 0, 1)
   for i = 0, #map + 1 do
-    lg.setColor(0, 0, 0, 1)
     lg.line(i * tileSize, 0, i * tileSize, #map * tileSize)
+  end
+  for i = 0, #map[1] do
     lg.line(0, i * tileSize, #map[1] * tileSize, i * tileSize)
   end
 

@@ -113,13 +113,13 @@ function love.draw()
       local y = tileSize * (i - 1)
 
       if tile < 0 then
-        lg.setColor(0, 0.5, 1, 1)
+        lg.setColor(0.5, 0.5, 0, 1)
         lg.draw(gapTile, x, y)
       elseif tile > 0 and objectives[pair(i, j)] ~= nil then
-        lg.setColor(0, 1, 0.5, 1)
+        lg.setColor(0.8, 0.8, 0, 1)
         lg.draw(Die.faces[tile], x, y)
       else
-        lg.setColor(0, 1, 0.5, 1)
+        lg.setColor(0.8, 0.8, 0, 1)
         lg.draw(floorTile, x, y)
       end
     end
@@ -139,6 +139,6 @@ function love.draw()
   lg.pop()
 
   lg.setColor(1, 1, 1, 1)
-  lg.print("Dave's Dice Roll")
+  lg.print("Dice of Daedalus")
   lg.print("Steps: " .. tostring(die.steps), 0, 24)
 end

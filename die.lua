@@ -91,7 +91,7 @@ function Die:draw()
     (self.y - 1) * self.h - self.h / 2
   )
 
-  lg.setColor(.85, .85, .85, 1)
+  lg.setColor(.9, .9, .9, 1)
   lg.draw(
     Die.faces[self.down],
     (self.x - 1) * self.w - self.w / 2,
@@ -102,7 +102,7 @@ function Die:draw()
     0.5, 0
   )
 
-  lg.setColor(.75, .75, .75, 1)
+  lg.setColor(.8, .8, .8, 1)
   lg.draw(
     Die.faces[self.right],
     self.x * self.w - 16,

@@ -9,19 +9,19 @@ local tutorial = {
   { 4, 0, 0, 0, 0, 0, 3 }
 }
 local tutorial_2 = {
-	{5},
-	{0},
-	{0},
-	{0},
-	{0},
-	{0},
-	{2}
+  { 5 },
+  { 0 },
+  { 0 },
+  { 0 },
+  { 0 },
+  { 0 },
+  { 2 }
 }
 local tutorial_3 = {
-	{3,0,0,0},
-	{-1,0,-1,0},
-	{-1,-1,-2,0},
-	{-1,-1,-1,6}
+  { 3, 0, 0, 0 },
+  { -1, 0, -1, 0 },
+  { -1, -1, -2, 0 },
+  { -1, -1, -1, 6 }
 }
 local easy = {
   { 2, 0, 0 },
@@ -36,11 +36,11 @@ local mid = {
   { 0, 2, 0, -1, -1 }
 }
 local challenge = {
-	{-1,-1,-1,-1,-1,-1},
-	{0,0,0,0,0,0},
-	{0,-1,0,0,-1,0},
-	{1,-1,0,0,-1,2},
-	{-1,-1,-1,-1,-1,-1}
+  { -1, -1, -1, -1, -1, -1 },
+  { 0, 0, 0, 0, 0, 0 },
+  { 0, -1, 0, 0, -1, 0 },
+  { 1, -1, 0, 0, -1, 2 },
+  { -1, -1, -1, -1, -1, -1 }
 }
 local intermediate = {
   { 2, -1, -1, -1, -1, -1, 3 },
@@ -63,16 +63,16 @@ local complex = {
   { 1, 0, 0, 0, 0, 0, 0, 0, 2 }
 }
 local difficult = {
-	{-1,-1,-1,-1,0,0,0,-1,-1,-1},
-	{-1,-1,-1,-1,0,0,0,-1,-1,-1},
-	{-1,-1,-1,-1,0,0,0,-1,-1,-1},
-	{-1,-1,-1,-1,0,-1,-1,-1,-1,4},
-	{1,0,-1,-1,0,-1,-1,-1,-1,0},
-	{-1,0,0,0,0,0,0,0,0,0},
-	{-1,-1,0,-1,-1,0,-1,-1,-1,-1},
-	{-1,-1,0,-1,-1,0,-1,-1,-1,-1},
-	{-1,-1,0,0,0,0,-1,-1,-1,-1},
-	{-1,-1,2,-1,-1,3,-1,-1,-1,-1}
+  { -1, -1, -1, -1, 0, 0, 0, -1, -1, -1 },
+  { -1, -1, -1, -1, 0, 0, 0, -1, -1, -1 },
+  { -1, -1, -1, -1, 0, 0, 0, -1, -1, -1 },
+  { -1, -1, -1, -1, 0, -1, -1, -1, -1, 4 },
+  { 1, 0, -1, -1, 0, -1, -1, -1, -1, 0 },
+  { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  { -1, -1, 0, -1, -1, 0, -1, -1, -1, -1 },
+  { -1, -1, 0, -1, -1, 0, -1, -1, -1, -1 },
+  { -1, -1, 0, 0, 0, 0, -1, -1, -1, -1 },
+  { -1, -1, 2, -1, -1, 3, -1, -1, -1, -1 }
 }
 local labyrinth = {
   { 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -200,7 +200,7 @@ local function loadMap(steps)
   die = Die.new(math.ceil(#map[1] / 2), math.ceil(#map / 2))
   die.steps = steps
   die.count = true
-  
+
   if mapIndex == #maps then
     --newEnemy(1, 1)
   end
@@ -210,7 +210,7 @@ local function gameUpdate(dt)
   local obj = objectives[pair(die.y, die.x)]
   if obj == die.top then
     objectives[pair(die.y, die.x)] = nil
-		bgm_click:play()
+    bgm_click:play()
   end
 
   local dx, dy = die.x, die.y
@@ -225,11 +225,11 @@ local function gameUpdate(dt)
     mapIndex = mapIndex + 1
     map = maps[mapIndex]
     loadMap(die.steps)
-	elseif next(objectives) == nil and mapIndex >= #maps then
+  elseif next(objectives) == nil and mapIndex >= #maps then
     die.count = false
-		bgm_game:stop()
-		bgm_victory:play()
-		state = "victory"
+    bgm_game:stop()
+    bgm_victory:play()
+    state = "victory"
   end
 
   if lk.isDown("escape") then
@@ -285,11 +285,11 @@ local function gameDraw()
   lg.setColor(1, 1, 1, 1)
   lg.print("Dice of Daedalus")
   lg.print("Steps: " .. tostring(die.steps), 0, 24)
-	if state == "victory" then
-		lg.printf("Congratulations for Completing the Game!",0,lg.getHeight()/4,lg.getWidth(),"center")
-		lg.setNewFont(14)
-		lg.printf("press space to continue",0,lg.getHeight()/3,lg.getWidth(),"center")
-		lg.setNewFont(30)
+  if state == "victory" then
+    lg.printf("Congratulations for Completing the Game!", 0, lg.getHeight() / 4, lg.getWidth(), "center")
+    lg.setNewFont(14)
+    lg.printf("press space to continue", 0, lg.getHeight() / 3, lg.getWidth(), "center")
+    lg.setNewFont(30)
   end
 end
 
@@ -297,38 +297,38 @@ local function startUpdate()
   suit.layout:reset(lg.getWidth() / 2.5, lg.getHeight() / 4)
   suit.Label("", {}, suit.layout:row(200, 50))
   suit.layout:row()
-  if suit.Button("Start", suit.layout:row()).hit then
+  if suit.Button("Start", suit.layout:row()).hit or lk.isDown("space") then
     loadMap(0)
     update = gameUpdate
     draw = gameDraw
-		state = "game"
+    state = "game"
   end
 end
 
 local function startDraw()
-	lg.draw(start_menu, 0, 0)
+  lg.draw(start_menu, 0, 0)
   suit.draw()
 end
 
 local function introUpdate()
-	if intro:isPlaying() == false then
-		state = "menu"
-		update = startUpdate
-		draw = startDraw
-	end
+  if intro:isPlaying() == false then
+    state = "menu"
+    update = startUpdate
+    draw = startDraw
+  end
 end
 
 local function introDraw()
-	lg.draw(intro,0,0)
+  lg.draw(intro, 0, 0)
 end
 
 function love.load()
   lg.setNewFont(30)
   floorTile = lg.newImage("assets/img/7.png")
   gapTile = lg.newImage("assets/img/8.png")
-	
-	intro = love.graphics.newVideo( "/assets/Intro.ogv")
-	intro:play()
+
+  intro = love.graphics.newVideo("/assets/Intro.ogv")
+  intro:play()
 
   update = introUpdate
   draw = introDraw
@@ -336,14 +336,14 @@ end
 
 function love.update(dt)
   update(dt)
-	
-	if (state == "victory") and isPressed["space"] then
-		bgm_victory:stop()
-		bgm_game:play()
-		update = startUpdate
-		draw = startDraw
+
+  if (state == "victory") and isPressed["space"] then
+    bgm_victory:stop()
+    bgm_game:play()
+    update = startUpdate
+    draw = startDraw
   end
-	
+
   isPressed = {}
 end
 

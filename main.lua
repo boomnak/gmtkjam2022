@@ -283,13 +283,28 @@ local function startDraw()
   suit.draw()
 end
 
+local function introUpdate()
+	if intro:isPlaying() == false then
+		state = "menu"
+		update = startUpdate
+		draw = startDraw
+	end
+end
+
+local function introDraw()
+	lg.draw(intro,0,0)
+end
+
 function love.load()
   lg.setNewFont(30)
   floorTile = lg.newImage("assets/img/7.png")
   gapTile = lg.newImage("assets/img/8.png")
+	
+	intro = love.graphics.newVideo( "/assets/vid/Intro.ogv")
+	intro:play()
 
-  update = startUpdate
-  draw = startDraw
+  update = introUpdate
+  draw = introDraw
 end
 
 function love.update(dt)

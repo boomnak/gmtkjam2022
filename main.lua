@@ -6,6 +6,11 @@ local lk = love.keyboard
 local tutorial = {
   { 4, 0, 0, 0, 0, 0, 3 }
 }
+local easy = {
+	{2,0,0},
+	{0,0,0},
+	{0,0,4}
+}
 local mid = {
   { -1, -1, 0, 0, -1 },
   { -1, 0, 1, 0, -1 },
@@ -51,7 +56,7 @@ local labyrinth = {
 	{0,0,0,0,0,0,0,-1,-1,-1,-1,0,0,0,0}
 }
 
-local maps = { tutorial, mid, intermediate, complex, labyrinth }
+local maps = { tutorial, easy, mid, intermediate, complex, labyrinth }
 local mapIndex = 1
 local map = maps[mapIndex]
 

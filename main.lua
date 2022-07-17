@@ -4,15 +4,19 @@ local lg = love.graphics
 local lk = love.keyboard
 
 local map = {
-  { -1, -1, 0, 0, -1 },
-  { -1, 0, 1, 0, -1 },
-  { -1, 0, 0, 0, -1 },
-  { -1, -1, 0, 0, 0 },
-  { 0, 2, 0, -1, -1 },
+  {3,0,0,0,0,0,0,0,4},
+  {0,0,-1,-1,0,-1,-1,0,0},
+  {0,-1,-1,-1,0,-1,-1,-1,0},
+  {0,-1,-1,0,0,0,-1,-1,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,-1,-1,0,0,0,-1,-1,0},
+  {0,-1,-1,-1,0,-1,-1,-1,0},
+  {0,0,-1,-1,0,-1,-1,0,0},
+  {1,0,0,0,0,0,0,0,2}
 }
 local tileSize = 64
 local mapTransform
-local die = Die.new(3, 3)
+local die = Die.new(math.ceil(#map[1]/2), math.ceil(#map[1]/2))
 local objectives = {}
 local isPressed = {}
 

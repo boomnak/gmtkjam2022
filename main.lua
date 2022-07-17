@@ -167,8 +167,8 @@ local function loadMap(steps)
 
   if mapIndex == #maps then
     --newEnemy(1, 1)
-    bgm_game:stop()
-	  bgm_boss:play()
+    --bgm_game:stop()
+		--bgm_boss:play()
   end
 end
 

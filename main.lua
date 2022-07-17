@@ -166,7 +166,7 @@ local function loadMap(steps)
   die.steps = steps
 
   if mapIndex == #maps then
-    newEnemy(1, 1)
+    --newEnemy(1, 1)
     bgm_game:stop()
 	  bgm_boss:play()
   end

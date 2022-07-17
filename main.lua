@@ -69,6 +69,8 @@ local maps = { tutorial, easy, mid, challenge, intermediate, complex, labyrinth 
 local mapIndex = 1
 local map = maps[mapIndex]
 
+local start_menu = love.graphics.newImage("/assets/img/title.png")
+
 local bgm_game = love.audio.newSource("/assets/snd/Cavernous_Desert02.mp3", "stream")
 local bgm_victory = love.audio.newSource("/assets/snd/Shakkar.ogg", "stream")
 local bgm_click = love.audio.newSource("/assets/snd/Menu Soundpack 3.wav", "stream")
@@ -265,8 +267,8 @@ local function gameDraw()
 end
 
 local function startUpdate()
-  suit.layout:reset(lg.getWidth() / 2 - 100, lg.getHeight() / 2 - 100)
-  suit.Label("Dice of Daedalus", {}, suit.layout:row(200, 50))
+  suit.layout:reset(lg.getWidth() / 2.5, lg.getHeight() / 4)
+  suit.Label("", {}, suit.layout:row(200, 50))
   suit.layout:row()
   if suit.Button("Start", suit.layout:row()).hit then
     loadMap(0)
@@ -277,6 +279,7 @@ local function startUpdate()
 end
 
 local function startDraw()
+	lg.draw(start_menu, 0, 0)
   suit.draw()
 end
 

@@ -190,6 +190,8 @@ local function gameUpdate(dt)
     mapIndex = mapIndex + 1
     map = maps[mapIndex]
     loadMap(die.steps)
+	elseif next(objectives == nil) and mapIndex > #maps then
+		--go back to menu and give scores as number of steps taken
   end
 
   if lk.isDown("escape") then

@@ -300,7 +300,7 @@ function love.load()
   floorTile = lg.newImage("assets/img/7.png")
   gapTile = lg.newImage("assets/img/8.png")
 	
-	intro = love.graphics.newVideo( "/assets/vid/Intro.ogv")
+	intro = love.graphics.newVideo( "/assets/Intro.ogv")
 	intro:play()
 
   update = introUpdate

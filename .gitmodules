@@ -14,6 +14,3 @@
 [submodule "lovetoys"]
 	path = lovetoys
 	url = https://github.com/Lovetoys/lovetoys
-[submodule "SUIT"]
-	path = suit
-	url = https://github.com/vrld/SUIT

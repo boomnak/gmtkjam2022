@@ -9,9 +9,9 @@ local tutorial = {
   { 4, 0, 0, 0, 0, 0, 3 }
 }
 local easy = {
-	{2,0,0},
-	{0,0,0},
-	{0,0,4}
+  { 2, 0, 0 },
+  { 0, 0, 0 },
+  { 0, 0, 4 }
 }
 local mid = {
   { -1, -1, 0, 0, -1 },
@@ -77,6 +77,64 @@ local function pair(i, j)
   return i + 257 * j
 end
 
+local function fromPair(p)
+  local i = math.fmod(p, 257)
+  local j = math.floor(p / 257)
+  return i, j
+end
+
+local enemy
+local function newEnemy(x, y)
+  enemy = {
+    x = x,
+    y = y,
+    update = function(self)
+      if die.moved then
+        local dx, dy = die.x - self.x, die.y - self.y
+
+        local cx, cy = self.x, self.y
+        if math.abs(dx) > math.abs(dy) then
+          self.x = self.x + (die.x - self.x) / math.abs(die.x - self.x)
+        else
+          self.y = self.y + (die.y - self.y) / math.abs(die.y - self.y)
+        end
+
+        if self.y <= 0 or self.y > #map
+            or self.x <= 0 or self.x > #map[1]
+            or map[self.y][self.x] == -1 then
+          self.x = cx
+          self.y = cy
+
+          -- Try all possible movements until one works
+          for _, d in pairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
+
+            if self.y + d[2] > 0 and self.y + d[2] <= #map
+                and self.x + d[1] > 0 and self.x + d[1] <= #map[1]
+                and map[self.y + d[2]][self.x + d[1]] ~= -1 then
+              self.x = self.x + d[1]
+              self.y = self.y + d[2]
+              break
+            end
+          end
+        end
+
+        if self.x == die.x and self.y == die.y then
+          love.event.quit()
+        end
+      end
+    end,
+    draw = function(self)
+      lg.setColor(1, 0, 0, 1)
+      lg.rectangle(
+        "fill",
+        (self.x - 1) * tileSize,
+        (self.y - 1) * tileSize,
+        tileSize, tileSize
+      )
+    end,
+  }
+end
+
 local function loadMap(steps)
   local w, h, _ = love.window.getMode()
   mapTransform = love.math.newTransform(
@@ -97,6 +155,10 @@ local function loadMap(steps)
 
   die = Die.new(math.ceil(#map[1] / 2), math.ceil(#map / 2))
   die.steps = steps
+
+  if mapIndex == #maps then
+    newEnemy(1, 1)
+  end
 end
 
 local function gameUpdate(dt)
@@ -121,6 +183,10 @@ local function gameUpdate(dt)
 
   if lk.isDown("escape") then
     love.event.quit()
+  end
+
+  if enemy ~= nil then
+    enemy:update()
   end
 end
 
@@ -154,6 +220,10 @@ local function gameDraw()
   end
   for i = 0, #map + 1 do
     lg.line(0, i * tileSize, #map[1] * tileSize, i * tileSize)
+  end
+
+  if enemy ~= nil then
+    enemy:draw()
   end
 
   -- Draw die

@@ -23,13 +23,14 @@ function Die.new(x, y)
     right = 3,
     down = 2,
     steps = 0,
+    moved = false,
   },
     { __index = Die }
   )
 end
 
 function Die:update(dt, map, isPressed)
-  local moved = false
+  self.moved = false
   local prev = {
     x = self.x,
     y = self.y,
@@ -40,28 +41,28 @@ function Die:update(dt, map, isPressed)
 
   if isPressed["w"] or isPressed["up"] then
     self.y = self.y - 1
-    moved = true
+    self.moved = true
 
     local down = 7 - self.top
     self.top = self.down
     self.down = down
   elseif isPressed["a"] or isPressed["left"] then
     self.x = self.x - 1
-    moved = true
+    self.moved = true
 
     local right = 7 - self.top
     self.top = self.right
     self.right = right
   elseif isPressed["s"] or isPressed["down"] then
     self.y = self.y + 1
-    moved = true
+    self.moved = true
 
     local top = 7 - self.down
     self.down = self.top
     self.top = top
   elseif isPressed["d"] or isPressed["right"] then
     self.x = self.x + 1
-    moved = true
+    self.moved = true
 
     local top = 7 - self.right
     self.right = self.top
@@ -74,9 +75,9 @@ function Die:update(dt, map, isPressed)
     for k, v in pairs(prev) do
       self[k] = v
     end
-    moved = false
+    self.moved = false
   end
-  if moved then
+  if self.moved then
     self.steps = self.steps + 1
     love.audio.stop(Die.rollSound)
     love.audio.play(Die.rollSound)

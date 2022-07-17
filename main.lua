@@ -71,7 +71,7 @@ local map = maps[mapIndex]
 
 local bgm_game = love.audio.newSource("/assets/snd/Cavernous_Desert02.mp3", "stream")
 local bgm_victory = love.audio.newSource("/assets/snd/Shakkar.ogg", "stream")
-local bgm_click = love.audio.newSource("/assets/snd/Menu Soundpack 3.wav", "Stream")
+local bgm_click = love.audio.newSource("/assets/snd/Menu Soundpack 3.wav", "stream")
 
 bgm_game:setLooping(true)
 bgm_game:play()

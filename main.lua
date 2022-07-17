@@ -71,6 +71,7 @@ local map = maps[mapIndex]
 
 local bgm_game = love.audio.newSource("/assets/snd/Cavernous_Desert02.mp3", "stream")
 local bgm_victory = love.audio.newSource("/assets/snd/Shakkar.ogg", "stream")
+local bgm_click = love.audio.newSource("/assets/snd/Menu Soundpack 3.wav", "Stream")
 
 bgm_game:setLooping(true)
 bgm_game:play()
@@ -180,6 +181,7 @@ local function gameUpdate(dt)
   local obj = objectives[pair(die.y, die.x)]
   if obj == die.top then
     objectives[pair(die.y, die.x)] = nil
+		bgm_click:play()
   end
 
   local dx, dy = die.x, die.y
